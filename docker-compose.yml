@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: forum_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: forum_password
+      MYSQL_DATABASE: forum
+      MYSQL_USER: forum_user
+      MYSQL_PASSWORD: forum_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./server/src/database/bootstrap/init.sh:/docker-entrypoint-initdb.d/00_init.sh
+      - ./server/src/database/bootstrap/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+      - ./server/src/database/bootstrap/seed.sql:/docker-entrypoint-initdb.d/seed.sql:ro
+volumes:
+  db_data:
+

@@ -1,0 +1,368 @@
+{
+	"info": {
+		"_postman_id": "17efe224-24c5-4626-af22-e3b9b0af305a",
+		"name": "pulse_forum",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39845692"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"Ada Lovelace\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{origin}}{{base_path}}/auth/login",
+							"host": [
+								"{{origin}}{{base_path}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Logs a user in, returning their user data."
+					},
+					"response": [
+						{
+							"name": "moderator_login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Mod1\",\n    \"password\": \"moderator\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{origin}}{{base_path}}/auth/login",
+									"host": [
+										"{{origin}}{{base_path}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "user_login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"Richard Feynman\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{origin}}{{base_path}}/auth/login",
+									"host": [
+										"{{origin}}{{base_path}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"_postman_previewlanguage": "",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{origin}}{{base_path}}/auth/logout",
+							"host": [
+								"{{origin}}{{base_path}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Log a user out. Return no data."
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"Ada Lovelace\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{origin}}{{base_path}}/auth/register",
+							"host": [
+								"{{origin}}{{base_path}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register a user account."
+					},
+					"response": []
+				}
+			],
+			"description": "Contains authentication services."
+		},
+		{
+			"name": "post",
+			"item": [
+				{
+					"name": "read_many",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{origin}}{{base_path}}/posts?page=1&limit=1",
+							"host": [
+								"{{origin}}{{base_path}}"
+							],
+							"path": [
+								"posts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Read a subset of posts. Pages start from 0. Value that are not part of the natural numbers will return no results."
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"Imagination is the discovering faculty, pre-eminently. It is that which penetrates into the unseen worlds around us, the worlds of Science\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{origin}}{{base_path}}/posts",
+							"host": [
+								"{{origin}}{{base_path}}"
+							],
+							"path": [
+								"posts"
+							]
+						},
+						"description": "Create a post."
+					},
+					"response": []
+				},
+				{
+					"name": "toggle_like",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"postId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{origin}}{{base_path}}/posts/like",
+							"host": [
+								"{{origin}}{{base_path}}"
+							],
+							"path": [
+								"posts",
+								"like"
+							]
+						},
+						"description": "Toggles a like by the users for the specified post. A user may not like their own post."
+					},
+					"response": []
+				},
+				{
+					"name": "toggle_flag",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"postId\": 1,\n    \"reason\": \"Malicious\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{origin}}{{base_path}}/posts/flag",
+							"host": [
+								"{{origin}}{{base_path}}"
+							],
+							"path": [
+								"posts",
+								"flag"
+							]
+						},
+						"description": "Toggles a post as \"flagged\". Only moderators my execute this function."
+					},
+					"response": []
+				}
+			],
+			"description": "Contains functionality pertaining to the creation and retrieval of posts as well as available operations performable on posts."
+		},
+		{
+			"name": "comments",
+			"item": [
+				{
+					"name": "comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"postId\": 1,\n    \"content\": \"To be, or not to be, that is the question.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{origin}}{{base_path}}/comments",
+							"host": [
+								"{{origin}}{{base_path}}"
+							],
+							"path": [
+								"comments"
+							]
+						},
+						"description": "Add a comment to a post."
+					},
+					"response": []
+				},
+				{
+					"name": "comments_read_many",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{origin}}{{base_path}}/comments?postId=1",
+							"host": [
+								"{{origin}}{{base_path}}"
+							],
+							"path": [
+								"comments"
+							],
+							"query": [
+								{
+									"key": "postId",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Read the comments for a sepcified post."
+					},
+					"response": []
+				}
+			],
+			"description": "Contains functionality related to creating and retrieving post comments."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "origin",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "base_path",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

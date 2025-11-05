@@ -1,0 +1,201 @@
+@font-face {
+    font-family: "departure-mono";
+    src: url("./assets/fonts/departure_mono/DepartureMonoNerdFontPropo-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "hurmit";
+    src: url("./assets/fonts/hurmit/HurmitNerdFont-Regular.otf") format("opentype");
+    font-style: 400;
+    font-weight: normal;
+}
+@font-face {
+    font-family: "big-blue";
+    src: url("./assets/fonts/big_blue_terminal/BigBlueTerm437NerdFontMono-Regular.ttf") format(truetype);
+    font-style: normal;
+    font-weight: normal;
+}
+
+@import "tailwindcss";
+
+@theme {
+    /* tailwind colours */
+        /* purple gradient */
+    --color-purple-1: #b100cd;
+    --color-purple-2: #a000c8;
+    --color-purple-3: #8a00c2;
+    --color-purple-4: #7600bc;
+    --color-purple-5: #4c00b0;
+    --color-purple-6: #E1D5E7;
+    --color-purple-7: #FF99FF;
+
+    /* green gradient */
+    --color-green-1: #052b2f;
+    --color-green-2: #073438;
+    --color-green-3: #0e4b50;
+    --color-green-4: #2d8f85;
+    --color-green-5: #636c54;
+    --color-green-6: #73AF55;
+    --color-green-7: #00ff95;
+    --color-green-8: #82B366;
+    
+    /* blue gradient */
+    --color-blue-1: #243c5a;
+    --color-blue-2: #09009f;
+    --color-blue-3: #1A5FB4;
+    --color-blue-4: #1C71D8;
+    --color-blue-5: #3584E4;
+    --color-blue-6: #62A0EA;
+    --color-blue-7: #99C1F1;
+    --color-blue-8: #43ECFF;
+
+    /* red gradient */
+    --color-red-1: #D06079;
+    --color-red-2: #BF4040;
+    --color-red-3: #B85450;
+    --color-red-4: #FF3333;
+
+    /* yellow gradient */
+    --color-yellow-1: #ffde1a;
+	--color-yellow-2: #ffce00; 
+	--color-yellow-3: #ffa700; 
+	--color-yellow-4: #ff8d00; 
+	--color-yellow-5: #ff7400; 
+    --color-yellow-6: #FFA127;
+
+    --font-departure: departure-mono;
+    --font-big-blue: big-blue;
+    --font-hurmit: hurmit;
+}
+
+
+:root {
+    /* purple gradient */
+    --purple-1: #b100cd;
+    --purple-2: #a000c8;
+    --purple-3: #8a00c2;
+    --purple-4: #7600bc;
+    --purple-5: #4c00b0;
+    --purple-6: #E1D5E7;
+    --purple-7: #FF99FF;
+
+    /* green gradient */
+    --green-1: #052b2f;
+    --green-2: #073438;
+    --green-3: #0e4b50;
+    --green-4: #2d8f85;
+    --green-5: #636c54;
+    --green-6: #73AF55;
+    --green-7: #00ff95;
+    --green-8: #82B366;
+    --green-9: #1976d2;
+    
+    /* blue gradient */
+    --blue-1: #243c5a;
+    --blue-2: #09009f;
+    --blue-3: #1A5FB4;
+    --blue-4: #1C71D8;
+    --blue-5: #3584E4;
+    --blue-6: #62A0EA;
+    --blue-7: #99C1F1;
+    --blue-8: #43ECFF;
+
+    /* red gradient */
+    --red-1: #D06079;
+    --red-2: #BF4040;
+    --red-3: #B85450;
+    --red-4: #FF3333;
+
+    /* yellow gradient */
+    --yellow-1: #ffde1a;
+	--yellow-2: #ffce00; 
+	--yellow-3: #ffa700; 
+	--yellow-4: #ff8d00; 
+	--yellow-5: #ff7400; 
+    --yellow-6: #FFA127;
+}
+
+.button-base {
+    @apply p-2 text-center rounded-md hover:cursor-pointer;
+}
+
+button > svg {
+    margin-right: 5px;
+}
+
+body {
+    background: var(--green-2);
+    font-family: "hurmit";
+    color: var(--green-6);
+}
+
+/* glowing border effect */
+@property --gradient-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: true;
+}
+
+.bg-purple-gradient {
+    background: linear-gradient(
+        45deg,
+        var(--purple-1),
+        var(--green-7)
+    )
+}
+
+.bg-green-gradient {
+    background: linear-gradient( 
+        180deg,
+        var(--green-1),
+        var(--green-3)
+    )
+}
+
+.border-rainbow-glow {
+    position: relative;
+    /* border-radius: 0.5vw; */
+}
+
+@keyframes rotation {
+    0% {--gradient-angle: 0deg; }
+    100% {--gradient-angle: 360deg;}
+}
+
+.border-rainbow-glow::before,
+.border-rainbow-glow::after{
+    /* make sure that the pseudo elements show up */
+    content:"";
+    /* absolute position to nearest positioned parent */
+    position: absolute;
+    /* set the distance between the element an its positioned parent*/
+    inset: -0.1rem;
+    z-index: -1;
+    filter: blur(0.1rem);
+    background: conic-gradient(
+        /* a heading */
+        from var(--gradient-angle),
+        /* colour stops - min 2 - gradiation is smooth between colour stops */
+        var(--purple-1),
+        var(--green-7),
+        var(--yellow-5),
+        var(--green-7),
+        var(--purple-1)
+    );
+    border-radius: inherit;
+    animation: rotation 10s linear infinite;
+}
+
+.gradient-text-hover:hover {
+      background: -webkit-linear-gradient(45deg, var(--blue-2), var(--green-7) 80%);
+      -webkit-background-clip: text; /* apply background clip */
+      -webkit-text-fill-color: transparent;
+}
+
+.gradient-text {
+      background: -webkit-linear-gradient(45deg, var(--blue-2), var(--green-7) 80%);
+      -webkit-background-clip: text; /* apply background clip */
+      -webkit-text-fill-color: transparent;
+}
