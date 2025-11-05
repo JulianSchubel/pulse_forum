@@ -3,6 +3,9 @@
 A small forum application supporting posts, comments, likes, and moderator
 flagging.
 
+![*Pulse*](client/assets/images/pulse_logo.png)
+
+
 
 ## Technology Stack
 A full-stack forum application where users can post messages, like posts, and comment on others' posts. Moderators can flag posts for review.
@@ -37,7 +40,6 @@ project-root
 │       ├── types
 │       │   └── data_models
 │       └── utilities
-├── local_env_vars
 ├── postman_collection
 └── server
     └── src
@@ -78,27 +80,44 @@ project-root
 
 1. Clone the repository
 ```bash
-git clone https://github.com/<your-username>/pulseforum.git
-cd pulseforum
+git clone https://github.com/JulianSchubel/pulse_forum
+cd pulse_forum
 ```
 
-2. Start MySQL in Docker (the compose will initialize DB with schema & seed)
+2. Start the test MySQL database in Docker - the compose will initialize DB with schema & seed. Make sure you run the command in step `6` before running this again.
 ```bash
 docker-compose up -d
 ```
 
-3. Install backend dependencies and run (development)
+3. Local environment variables have been included in their respective folders
+   (/client/.env.local and /server/.env)
+
+4. Install backend dependencies and run (development)
 ```bash
-cd backend
+cd server
 npm install
 npm run dev
 ```
 
-4. Install frontend dependencies and run (development)
+5. Install frontend dependencies and run (development)
 ```bash
-cd ../frontend
+cd ../client
 npm install
 npm run dev
 ```
+ 
+6. When you are finished tear-down and clean up the database by running the
+   following in the project root.
+```bash
+docker-compose down -v
+```
 
+## Using the Postman Collection
+The repository includes preconfigured Postman collections in the
+postman_collections directory.
 
+Open Postman and import the following:
+- postman_collections/pulse_forum.postman_collection.json
+- postman_collections/pulse_forum_local.postman_environment.json
+
+Select the `pulse_forum_local` environment in Postman to automatically set base URLs.
