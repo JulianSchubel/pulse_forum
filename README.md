@@ -99,7 +99,8 @@ npm install
 npm run dev
 ```
 
-5. Install frontend dependencies and run (development)
+5. Install frontend dependencies and run (development). The application is
+   served at `http://localhost:3000` in development.
 ```bash
 cd ../client
 npm install
