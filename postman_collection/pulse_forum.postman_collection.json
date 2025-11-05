@@ -1,7 +1,8 @@
 {
 	"info": {
-		"_postman_id": "17efe224-24c5-4626-af22-e3b9b0af305a",
+		"_postman_id": "a2451d19-a03c-4439-b0a0-7494624abed2",
 		"name": "pulse_forum",
+		"description": "A full-stack forum application where users can post messages, like posts, and comment on others' posts.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "39845692"
 	},
@@ -61,10 +62,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						},
 						{
 							"name": "user_login",
@@ -91,7 +92,7 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": "",
+							"_postman_previewlanguage": "Text",
 							"header": [],
 							"cookie": [
 								{
@@ -351,18 +352,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "origin",
-			"value": "",
-			"type": "default"
-		},
-		{
-			"key": "base_path",
-			"value": "",
-			"type": "default"
 		}
 	]
 }
