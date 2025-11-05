@@ -121,3 +121,16 @@ Open Postman and import the following:
 - postman_collections/pulse_forum_local.postman_environment.json
 
 Select the `pulse_forum_local` environment in Postman to automatically set base URLs.
+
+| Category     | Request Name         | Method   | Endpoint                | Description                                                                       |
+| ------------ | -------------------- | -------- | ----------------------- | --------------------------------------------------------------------------------- |
+| **Auth**     | `login`              | **POST** | `/auth/login`           | Logs a user in and returns their user data.                                       |
+|              | `logout`             | **POST** | `/auth/logout`          | Logs the current user out; returns no data.                                       |
+|              | `register`           | **POST** | `/auth/register`        | Registers a new user account.                                                     |
+| **Posts**    | `read_many`          | **GET**  | `/posts?page=1&limit=1` | Retrieves a paginated list of forum posts.                                        |
+|              | `create`             | **POST** | `/posts`                | Creates a new forum post.                                                         |
+|              | `toggle_like`        | **POST** | `/posts/like`           | Toggles a like for a specific post. Users cannot like their own posts.            |
+|              | `toggle_flag`        | **POST** | `/posts/flag`           | Flags or unflags a post as “misleading”. Only moderators can execute this action. |
+| **Comments** | `comment`            | **POST** | `/comments`             | Adds a new comment to a specific post.                                            |
+|              | `comments_read_many` | **GET**  | `/comments?postId=1`    | Retrieves all comments associated with a specified post.                          |
+
