@@ -5,7 +5,7 @@ USE forum;
 -- Create a dedicated application user
 CREATE USER IF NOT EXISTS 'forum_user'@'%' IDENTIFIED BY 'forum_password';
 
--- Grant limited privileges (no DROP DATABASE, etc.)
+-- Grant privileges 
 GRANT SELECT, INSERT, UPDATE, DELETE, DROP, EXECUTE ON forum.* TO 'forum_user'@'%';
 
 -- Ensure privileges are reloaded
@@ -85,7 +85,7 @@ CREATE TABLE post_likes (
 		INDEX (user_id)
 ) ENGINE=InnoDB;
 
--- simple audit: moderator flags history (optional)
+-- moderator flags history
 DROP TABLE IF EXISTS post_flags;
 CREATE TABLE post_flags (
 	id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
