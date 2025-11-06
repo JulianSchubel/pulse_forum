@@ -7,8 +7,6 @@ VALUES
 ('Richard Feynman',   'f9890d3b9a2b8ffe9507e50fb6dbee97dc1a765af4191279c86bc2a039756c36c5f657afe2512d6dd7dc62cfa6414b2149ef252941a3157d8ebd5ae952a63a8e.7cecc379ebcbc62968cd5e62e126f5d3', 'Richard Feynman', 'user'),
 ('Mod1',  '94235e1fd8da0869e77323e5237f5d3630d45ff73f51cd9f31d71354417d068cbaf82b9422730f3c351265bb8190c8afb7537aea6b0d620bbee86ad5ccd2b171.0f8ed127baafa52fe83f1991e253c110', 'Moderator', 'moderator');
 
--- If you use bcrypt locally to create real hashes, replace placeholders above.
-
 -- posts
 INSERT INTO posts (author_id, content, created_at)
 VALUES
