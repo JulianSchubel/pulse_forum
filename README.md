@@ -84,7 +84,8 @@ git clone https://github.com/JulianSchubel/pulse_forum
 cd pulse_forum
 ```
 
-2. Start the test MySQL database in Docker - the compose will initialize DB with schema & seed. Make sure you run the command in step `6` before running this again.
+2. Start the test MySQL database in Docker - the compose will initialize the database - creating a user,
+    the database schema, stored procedures and inserting seed data. Make sure you run the command in step `6` before running this again.
 ```bash
 docker-compose up -d
 ```
@@ -112,6 +113,17 @@ npm run dev
 ```bash
 docker-compose down -v
 ```
+
+The database is seeded with two normal users ('user' role) and one moderator
+('moderator' role). The usernames and passwords for these users are indicated in
+the table below
+
+| Username | Password | Role |
+| -------- | -------- | ---- |
+| Ada Lovelace | password | user |
+| Richard Feynman | password | user |
+| Mod1 | moderator | moderator |
+
 
 ## Using the Postman Collection
 The repository includes preconfigured Postman collections in the
