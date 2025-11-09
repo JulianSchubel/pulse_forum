@@ -30,16 +30,15 @@ project-root
 │       │   └── services
 │       ├── components
 │       │   ├── app
-│       │   ├── logo
-│       │   └── svg
+│       │   └── logo
 │       ├── context
 │       ├── hooks
 │       ├── layouts
 │       ├── pages
+│       ├── services
 │       ├── theme
-│       ├── types
-│       │   └── data_models
-│       └── utilities
+│       └── types
+│           └── data_models
 ├── postman_collection
 └── server
     └── src
@@ -54,16 +53,15 @@ project-root
         ├── database
         │   ├── bootstrap
         │   └── domains
-        │       ├── audit
         │       ├── auth
         │       ├── comments
-        │       │   └── methods
         │       ├── posts
         │       ├── session
         │       └── users
         ├── errors
         ├── middleware
         ├── routes
+        ├── services
         ├── types
         │   └── data_models
         └── utilities
@@ -100,10 +98,10 @@ npm install
 npm run dev
 ```
 
-5. Install frontend dependencies and run (development). The application is
+5. Open another terminal window and navigate to the client directory. Install frontend dependencies and run (development). The application is
    served at `http://localhost:3000` in development.
 ```bash
-cd ../client
+cd ../client #Assuming working dir is /server
 npm install
 npm run dev
 ```
