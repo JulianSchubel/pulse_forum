@@ -24,7 +24,7 @@ export const ForumNavbar: React.FC = () => {
 
     const handleAuthAction = async () => {
         if (authenticated) {
-            await logout();
+            logout();
             navigate("/");
         } else {
             navigate("/");
@@ -35,12 +35,9 @@ export const ForumNavbar: React.FC = () => {
         <AppBar position="sticky" color="primary" className="mb-4">
             <ThemedBox>
                 <Toolbar className="flex justify-between">
-                    <Typography
-                        onClick={() => navigate("/")}
-                        className="cursor-pointer"
-                    >
-                        Pulse Forum
-                    </Typography>
+                        <Typography className="cursor-pointer">
+                            Pulse Forum
+                        </Typography>
                     <PulseLogo />
                     <Box className="flex items-center gap-4">
                         <Tooltip title="Scroll to top">

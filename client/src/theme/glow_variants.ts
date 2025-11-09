@@ -1,10 +1,11 @@
-export type GlowVariant =
-    | "default"
-    | "glow"
-    | "success"
-    | "error"
-    | "info"
-    | "warning";
+export enum GlowVariant {
+    DEFAULT="default",
+    RAINBOW="rainbow",
+    SUCCESS="success",
+    ERROR="error",
+    INFO="info",
+    WARNING="warning",
+}
 
 export const glowBase = {
     position: "relative",
@@ -38,7 +39,7 @@ export const glowVariants: Record<GlowVariant, any> = {
                 "conic-gradient(from var(--gradient-angle), var(--purple-1), var(--green-7), var(--yellow-5), var(--green-7), var(--purple-1))",
         },
     },
-    glow: {
+    rainbow: {
         ...glowBase,
         background: "linear-gradient(180deg, var(--green-1), var(--green-3))",
         border: "1px solid var(--green-4)",
