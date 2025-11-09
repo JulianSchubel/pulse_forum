@@ -32,7 +32,6 @@ export class DatabaseConnection {
             const sql = `CALL ${procedureName}(${placeholders});`;
 
             const [[[result]]] = await DatabaseConnection.pool.query(sql, args) as any;
-            console.log("Db result:", result);
             /* expect a single JSON record from the database */
             return Result.ok(result.json_result as NonNullable<T>);
         } catch (error) {

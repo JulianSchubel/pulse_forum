@@ -1,8 +1,8 @@
 import React from "react";
-import { Container, Button, Typography } from "@mui/material";
+import { Container, Button } from "@mui/material";
 import { useAuth } from "@hooks/auth";
 import { ForumPostCard } from "@components/forum_post_card";
-import { Post } from "@typedefs/post";
+import { Post } from "@src/types";
 
 type ForumFeedProps = {
   posts: Post[];

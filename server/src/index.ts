@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import cors from "cors";
+import http from "http";
 import { config } from "dotenv";
 import { Config } from "@config/config";
 import {
@@ -17,9 +18,12 @@ import cookieParser from "cookie-parser";
 import cookieSession from "cookie-session";
 import { authenticationHandler } from "./middleware/authentication_handler";
 import { Role } from "./types/role";
+import { SocketService } from "./services/socket";
 
 config();
 const app: Express = express();
+const server = http.createServer(app);
+SocketService.initialize(server);
 
 app.set("trust proxy", 1);
 app.use(cookieParser(Config.COOKIE_SECRET));
@@ -30,6 +34,7 @@ app.use(
         sameSite: "lax",
     })
 );
+
 app.use(cors(Config.CORS_OPTIONS));
 app.use(express.json());
 app.disable("x-powered-by");
@@ -42,7 +47,7 @@ app.use(globalErrorHandler);
 app.use(notFoundHandler);
 
 const start = async () => {
-    app.listen(Config.PORT, () => {
+    server.listen(Config.PORT, () => {
         console.log(`Server listening on port ${Config.PORT}...`);
     });
 }

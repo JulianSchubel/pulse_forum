@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import { Box, Button, CircularProgress, IconButton, TextField, Typography } from "@mui/material";
+import { Box, CircularProgress, IconButton, TextField, Typography } from "@mui/material";
 import { ForumPostCard } from "@src/components/forum_post_card";
 import { useAuth } from "@src/hooks/auth";
 import { Post, Role } from "@src/types";
 import { ForumNavbar } from "@src/components/navbar";
 import { PostsService } from "@src/api/services/posts";
 import { Send } from "@mui/icons-material";
+import { useForumSocket } from "@src/hooks/web_socket";
 
 export default function ForumPage() {
     const { user, authenticated } = useAuth();
@@ -48,6 +49,13 @@ export default function ForumPage() {
         getPosts();
     }, [getPosts]);
 
+    useForumSocket({
+        onPostCreated: (post: Post) => {
+            getPosts();
+            console.log(post);
+            setPosts((prev) => [post, ...prev]);
+        }
+    });
     return (
         <>
             <ForumNavbar />

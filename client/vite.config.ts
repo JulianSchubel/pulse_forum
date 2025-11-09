@@ -14,7 +14,7 @@ export default defineConfig({
         tailwindcss(),
         tsconfigPaths()
     ],
-        build: {
+    build: {
         outDir: "build",
         assetsDir: "static",
     },

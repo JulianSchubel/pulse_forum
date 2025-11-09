@@ -15,6 +15,7 @@ declare global {
                     user: {
                         id: number;
                         role: Role;
+                        username: string;
                     }
                 }
             } | null;
@@ -38,6 +39,7 @@ export const authenticationHandler = async (req: Request, res: Response, next: N
                     req.session.data.user = {
                         id: sessionResult.value.userId,
                         role: sessionResult.value.role,
+                        username: sessionResult.value.username,
                     };
                 } else {
                     return res.sendResult(Result.error(new UnauthenticatedError(ReasonPhrases.UNAUTHORIZED, StatusCodes.UNAUTHORIZED)));

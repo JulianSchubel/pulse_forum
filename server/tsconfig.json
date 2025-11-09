@@ -33,7 +33,7 @@
             "@middleware/*": [
                 "./src/middleware/*"
             ],
-            "@type/*": [
+            "@types/*": [
                 "./src/types/*"
             ],
             "@utilities/*": [

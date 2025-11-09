@@ -18,12 +18,6 @@ httpClient.interceptors.response.use(
         return Promise.resolve(response.data);
     },
     async (error) => {
-        const { response } = error;
-
-        /* Handle 401 Unauthorized */
-        if (response.status === 401) {
-            window.location.href = "/login";
-        }
         return Promise.reject(error);
     }
 );

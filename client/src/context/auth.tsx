@@ -1,5 +1,4 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-import axios, { AxiosResponse } from "axios";
 import { 
     User,
     ApiResponse,
@@ -24,6 +23,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
     const login = async (username: string, password: string): Promise<Result<User>> => {
         try {
+            console.log("Login");
             const response = await httpClient.post<void, ApiResponse<User>>("/api/auth/login", { username, password });
 
             console.log(response)

@@ -1,6 +1,6 @@
 import { Dbi } from "@/database/dbi";
 import { UnauthenticatedError } from "@/errors";
-import { Result } from "@/types/result";
+import { Result } from "@/types";
 import { Request, Response, NextFunction } from "express";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import {
@@ -9,6 +9,7 @@ import {
 } from "./validations";
 import { validateRequest } from "@/middleware/request_validator";
 import { resultToApiResponse } from "@/types";
+import { SocketService } from "@/services/socket";
 
 export class CommentsController {
     public static async create(req: Request, res: Response, next: NextFunction) {
@@ -34,6 +35,9 @@ export class CommentsController {
             );
         }
         const response = await Dbi.comments.create(postId, req.session.data.user.id, content);
+        if(response.ok) {
+            SocketService.emitCommentCreated(response.value);
+        }
         return res.sendResult(response);
     }
 
