@@ -1,4 +1,4 @@
-import { immutable } from "@/utilities/decorators";
+import { immutable } from "@utilities/decorators";
 import { randomUUID } from "crypto";
 import { PoolOptions } from "mysql2";
 

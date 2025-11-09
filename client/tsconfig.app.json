@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "removeComments": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
         "@src/*": [
             "./src/*"
@@ -27,8 +27,8 @@
         "@assets/*": [
             "./assets/*"
         ],
-        "@typedefs/*": [
-            "./src/types/*"
+        "@types/*": [
+            "../lib/types/*"
         ],
         "@components/*": [
             "./src/components/*"
@@ -56,7 +56,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "noExplicitAny": false
+    "noImplicitAny": false
   },
   "include": ["src"]
 }

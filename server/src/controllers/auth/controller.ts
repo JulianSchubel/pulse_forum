@@ -1,8 +1,6 @@
 import { Dbi } from "@/database/dbi";
 import { BadRequestError, InternalError, SystemError } from "@/errors";
 import { validateRequest } from "@/middleware/request_validator";
-import { resultToApiResponse } from "@/types";
-import { Result } from "@/types/result";
 import { Password } from "@/utilities/password";
 import { Request, Response, NextFunction } from "express";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
@@ -10,6 +8,7 @@ import {
     registerRequestValidations,
     loginRequestValidations,
 } from "./validations";
+import { Result, resultToApiResponse } from "@/types";
 
 export class AuthController {
     public static async register(req: Request, res: Response, next: NextFunction) {
@@ -47,6 +46,7 @@ export class AuthController {
                 user: {
                     id: loginResult.value.userId,
                     role: loginResult.value.role,
+                    username: loginResult.value.username,
                 }
             }
         };
@@ -64,7 +64,7 @@ export class AuthController {
             return;
         }
 
-        const { username, password } = req.body;
+        const { username } = req.body;
         const userReadResult = await Dbi.users.read(undefined, username);
         if(userReadResult.ok) {
             const loginResult = await Dbi.auth.login(username, userReadResult.value.passwordHash);
@@ -77,6 +77,7 @@ export class AuthController {
                     user: {
                         id: loginResult.value.userId,
                         role: loginResult.value.role,
+                        username: loginResult.value.username
                     }
                 }
             };

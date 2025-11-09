@@ -9,9 +9,10 @@ import {
     Box,
 } from "@mui/material";
 import { ChatBubbleOutline, Flag, FlagOutlined, Send, ThumbsUpDownOutlined } from "@mui/icons-material";
-import { Post } from "@typedefs/data_models/post";
-import { PostsService } from "@src/api/services/posts";
+import { PostFlaggedResponse, PostLikesResponse, PostsService } from "@src/api/services/posts";
 import { useAuth } from "@src/hooks/auth";
+import { Post, Comment } from "@src/types";
+import { useForumSocket } from "@src/hooks/web_socket";
 
 type ForumPostProps = {
     post: Post;
@@ -29,17 +30,14 @@ export const ForumPostCard: React.FC<ForumPostProps> = ({ post, canFlag }) => {
     const [isLiking, setIsLiking] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
-    const isOwnPost = user?.userId === post.author.id;
+    const isOwnPost = user?.id === post.author.id;
 
     /**
      * Flag handling
      * */
     const handleFlag = async () => {
         if(canFlag) {
-            const result = await PostsService.flagPost(post.id, "Misleading")
-            if(result.ok) {
-                setFlagged( (prev) => !prev);
-            }
+            await PostsService.flagPost(post.id, "Misleading")
         }
     }
     /** 
@@ -52,10 +50,7 @@ export const ForumPostCard: React.FC<ForumPostProps> = ({ post, canFlag }) => {
         }
         setIsLiking(true);
 
-        const result = await PostsService.likePost(post.id);
-        if (result.ok) {
-            setLikes(result.value);
-        }
+        await PostsService.likePost(post.id);
         setIsLiking(false);
     };
 
@@ -71,10 +66,6 @@ export const ForumPostCard: React.FC<ForumPostProps> = ({ post, canFlag }) => {
         const result = await PostsService.comment(post.id, newComment.trim());
         if (result.ok) {
             setNewComment("");
-            const refreshed = await PostsService.getComments(post.id);
-            if (refreshed.ok) {
-                setComments(refreshed.value);
-            }
         }
         setIsSubmitting(false);
     };
@@ -89,6 +80,25 @@ export const ForumPostCard: React.FC<ForumPostProps> = ({ post, canFlag }) => {
             inputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
         }
     }, [expanded]);
+    useForumSocket({
+        onCommentCreated: (comment: Comment) => {
+            if(post.id === comment.postId) {
+                post.commentsCount += 1;
+                setComments((prev) => [comment, ...prev]);
+            }
+        },
+        onPostLiked: (like: PostLikesResponse) => {
+            if(post.id === like.postId) {
+                setLikes(like.likes);
+            }
+            
+        },
+        onPostFlagged: (flagged: PostFlaggedResponse) => {
+            if(post.id === flagged.postId) {
+                setFlagged((prev) => !prev);
+            }
+        }
+    });
 
     return (
         <Card
@@ -128,7 +138,7 @@ export const ForumPostCard: React.FC<ForumPostProps> = ({ post, canFlag }) => {
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <Box mt={2}>
                         {comments?.length ? (
-                            comments.map((comment) => (
+                            comments.map((comment: Comment) => (
                                 <Box
                                     key={comment.id}
                                     className="p-2 rounded-md mb-2 borded"

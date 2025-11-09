@@ -3,7 +3,6 @@ import { Result } from "@/types/result";
 import { Dbi } from "@/database/dbi";
 import { UnauthenticatedError, UnauthorizedError } from "@/errors";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { Role } from "@/types/role";
 import {
     readManyRequestValidations,
     createRequestValidations,
@@ -12,6 +11,8 @@ import {
 } from "./validations";
 import { validateRequest } from "@/middleware/request_validator";
 import { resultToApiResponse } from "@/types";
+import { Role } from "@/types";
+import { SocketService } from "@/services/socket";
 
 export class PostsController {
     public static async readMany(req: Request, res: Response, next: NextFunction) {
@@ -60,6 +61,10 @@ export class PostsController {
             );
         }
         const response = await Dbi.posts.create(req.session.data.user.id, content);
+        console.log("post create result", response);
+        if(response.ok) {
+            SocketService.emitPostCreated(response.value);
+        }
         return res.sendResult(response);
     }
 
@@ -86,6 +91,9 @@ export class PostsController {
             );
         }
         const response = await Dbi.posts.toggleLike(postId, req.session.data.user.id);
+        if(response.ok) {
+            SocketService.emitPostLiked(response.value);
+        }
         return res.sendResult(response);
     }
 
@@ -122,6 +130,9 @@ export class PostsController {
             );
         }
         const response = await Dbi.posts.toggleFlag(postId, req.session.data.user.id, reason);
+        if(response.ok) {
+            SocketService.emitPostFlagged(response.value);
+        }
         return res.sendResult(response);
     }
 }

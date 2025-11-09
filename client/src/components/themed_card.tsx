@@ -1,5 +1,5 @@
 import { Card, styled } from "@mui/material";
-import { glowVariants, GlowVariant } from "../theme/glowVariants";
+import { GlowVariant, glowVariants } from "@src/theme/glow_variants";
 
 interface ThemedCardProps {
     variant?: GlowVariant;

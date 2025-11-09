@@ -201,7 +201,7 @@ sp:BEGIN
 
     -- Return JSON with UUID as string
     SELECT JSON_OBJECT(
-        'userId', v_user_id,
+        'id', v_user_id,
         'username', p_username,
         'role', v_role,
         'sessionId', BIN_TO_UUID(v_session_id)
@@ -232,11 +232,12 @@ CREATE PROCEDURE `sp_session_validate_session`(
 )
 BEGIN
     DECLARE v_user_id BIGINT;
+    DECLARE v_username VARCHAR(100);
     DECLARE v_role ENUM('user','moderator','admin');
     DECLARE v_session_id BINARY(16);
 
-    SELECT u.id, u.role, s.session_id
-    INTO v_user_id, v_role, v_session_id
+    SELECT u.id, u.username, u.role, s.session_id
+    INTO v_user_id, v_username, v_role, v_session_id
     FROM users u
     JOIN user_sessions s 
         ON u.id = s.user_id
@@ -253,6 +254,7 @@ BEGIN
         SELECT JSON_OBJECT(
             'valid', TRUE, 
             'userId', v_user_id, 
+            'username', v_username,
             'role', v_role,
             'sessionId', BIN_TO_UUID(v_session_id)
         ) AS json_result;
@@ -266,9 +268,48 @@ DELIMITER //
 CREATE PROCEDURE `sp_posts_create`(IN p_author_id BIGINT, IN p_content TEXT)
 BEGIN
 	INSERT INTO posts (author_id, content) VALUES (p_author_id, p_content);
-	SELECT JSON_OBJECT(
-		'postId', LAST_INSERT_ID()
-	) AS result;
+    SELECT JSON_OBJECT(
+        'id', p.id,
+        'content', p.content,
+        'createdAt', p.created_at,
+        'flagged', p.flagged,
+        'author', JSON_OBJECT(
+            'id', u.id,
+            'displayName', u.display_name,
+            'role', u.role
+        ),
+        'likes', (
+            COALESCE((SELECT COUNT(*) FROM post_likes WHERE post_id = p.id), 0)
+        ),
+        'commentsCount', (
+            COALESCE((SELECT COUNT(*) FROM comments WHERE post_id = p.id), 0)
+        ),
+        'comments', (
+            SELECT IFNULL(
+                JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'id', c.id,
+                        'content', c.content,
+                        'createdAt', c.created_at,
+                        'author', JSON_OBJECT(
+                            'id', cu.id,
+                            'displayName', cu.display_name
+                        )
+                    )
+                ),
+                JSON_ARRAY()
+            )
+            FROM comments c
+            JOIN users cu 
+                ON cu.id = c.author_id
+            WHERE c.post_id = p.id
+            ORDER BY c.created_at ASC
+        )
+    ) as json_result
+    FROM posts p
+    JOIN users u
+    ON u.id = p.author_id
+    WHERE p.id = LAST_INSERT_ID();
 END//
 DELIMITER ;
 
@@ -320,7 +361,7 @@ BEGIN
         FROM posts p
         JOIN users u
         ON u.id = p.author_id
-        ORDEr BY p.created_at DESC
+        ORDER BY p.created_at DESC
         LIMIT p_limit OFFSET p_offset
     ) as t;
 END//
@@ -412,6 +453,7 @@ BEGIN
     END IF;
 
     SELECT JSON_OBJECT(
+        'postId', p_post_id,
         'likes', COALESCE((SELECT COUNT(*) FROM post_likes pl WHERE p_post_id = pl.post_id), 0)
     ) as json_result;
 END//
@@ -457,7 +499,10 @@ proc:BEGIN
             flagged_at = NULL
         WHERE id = p_post_id;
     END IF;
-    SELECT JSON_OBJECT('flagged', p.flagged) AS json_result FROM posts p WHERE p.id = p_post_id;
+    SELECT JSON_OBJECT(
+        'postId', p_post_id,
+        'flagged', p.flagged
+    ) AS json_result FROM posts p WHERE p.id = p_post_id;
 END//
 DELIMITER ;
 

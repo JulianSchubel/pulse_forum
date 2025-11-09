@@ -2,7 +2,8 @@ import { ApiResponse, Post, Result, Comment } from "@src/types";
 
 import httpClient from "../client";
 
-type PostLikesResponse = { likes: number; };
+export type PostLikesResponse = { postId: number; likes: number; };
+export type PostFlaggedResponse = { postId: number; flagged: boolean; };
 
 export class PostsService {
     public static async readPosts(pageToLoad: number = 1): Promise<Result<Post[]>> {
@@ -46,13 +47,13 @@ export class PostsService {
         }
     };
 
-    public static async flagPost(postId: number, reason: string): Promise<Result<boolean>> {
+    public static async flagPost(postId: number, reason: string): Promise<Result<PostFlaggedResponse>> {
         try {
-            const response = await httpClient.post<void, ApiResponse<Post[]>>("/api/posts/flag", {postId, reason});
+            const response = await httpClient.post<void, ApiResponse<PostFlaggedResponse>>("/api/posts/flag", {postId, reason});
             if(response.isError) {
                 return Result.error(new Error("Failed to flag post"));
             }
-            return Result.ok(true);
+            return Result.ok(response.body);
         } catch {
             return Result.error(new Error("An unexpected error occurred"));
         }

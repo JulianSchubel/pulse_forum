@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { validationResult, ContextRunner } from 'express-validator';
 import { RequestValidationError } from "@/errors"
-import { Result } from "@type/result";
+import { Result } from "@/types";
 
 export const validateRequest = async (validations: ContextRunner[]) => {
     return async (req: Request<any, any, any, any>) => {
