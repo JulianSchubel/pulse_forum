@@ -38,9 +38,6 @@ export const ForumPostCard: React.FC<ForumPostProps> = ({ post, canFlag }) => {
     const handleFlag = async () => {
         if(canFlag) {
             await PostsService.flagPost(post.id, "Misleading")
-//            if(result.ok) {
-//                setFlagged( (prev: boolean) => !prev);
-//            }
         }
     }
     /** 
@@ -54,9 +51,6 @@ export const ForumPostCard: React.FC<ForumPostProps> = ({ post, canFlag }) => {
         setIsLiking(true);
 
         await PostsService.likePost(post.id);
-//        if (result.ok) {
-//            setLikes(result.value);
-//        }
         setIsLiking(false);
     };
 
@@ -72,10 +66,6 @@ export const ForumPostCard: React.FC<ForumPostProps> = ({ post, canFlag }) => {
         const result = await PostsService.comment(post.id, newComment.trim());
         if (result.ok) {
             setNewComment("");
-//            const refreshed = await PostsService.getComments(post.id);
-//            if (refreshed.ok) {
-//                setComments(refreshed.value);
-//            }
         }
         setIsSubmitting(false);
     };
