@@ -13,7 +13,7 @@ type LoginFormData = {
 };
 
 export default function LoginPage() {
-    const { login } = useAuth();
+    const { login, logout, authenticated } = useAuth();
     const navigate = useNavigate();
     const [error, setError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -37,6 +37,15 @@ export default function LoginPage() {
         } else {
             setError("Invalid username or password");
         }
+    }
+
+    /* Guest users */
+    const handleGuestSession = async () => {
+        /* If the user was logged in logout */
+        if(authenticated) {
+            logout();
+        }
+        navigate("/forum")
     }
 
     return (
@@ -111,7 +120,7 @@ export default function LoginPage() {
                         {isSubmitting ? "Logging in..." : "Login"}
                     </Button>
 
-                    <Button variant="contained" fullWidth sx={{ mt: 1 }} onClick={() => navigate("/forum")}>
+                    <Button variant="contained" fullWidth sx={{ mt: 1 }} onClick={handleGuestSession}>
                         Continue as Guest
                     </Button>
 
