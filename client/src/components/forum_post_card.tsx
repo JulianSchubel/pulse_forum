@@ -127,10 +127,10 @@ export const ForumPostCard: React.FC<ForumPostProps> = ({ post, canFlag }) => {
                         {post.commentsCount}
                     </IconButton>
                     <IconButton size="small" onClick={handleFlag}>
-                        {flagged
+                        {canFlag && (flagged
                             ? <Flag fontSize="small" />
                             : <FlagOutlined fontSize="small" />
-                        }
+                        )}
                     </IconButton>
                 </Box>
 
