@@ -62,6 +62,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
             const response = await httpClient.post<void, ApiResponse<User>>("api/auth/register", {username, password});
             if(!response.isError) {
                 setUser(response.body);
+                setAuthenticated(true);
+                localStorage.setItem(USER_STORAGE_IDENTIFIER, JSON.stringify(response.body));
                 return Result.ok(response.body);
             } else {
                 return Result.error(new Error("Failed to register user"));
